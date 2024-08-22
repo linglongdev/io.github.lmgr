@@ -1,0 +1,57 @@
+From f7800b4cb465343a72a4fe98ee857419565492a6 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Wed, 14 Aug 2024 17:46:31 +0800
+Subject: [PATCH] install
+
+---
+ lmgr.pro | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
+
+diff --git a/lmgr.pro b/lmgr.pro
+index e1e6831..8181d31 100644
+--- a/lmgr.pro
++++ b/lmgr.pro
+@@ -25,29 +25,26 @@ VERS = $$replace(VERS, "\.", "")
+ unix:!macx {
+ QMAKE_LFLAGS += -Wl,-rpath=.
+ 
+-INSTALLDIR = /tmp/lmgr.AppDir
+ 
+-target.path = $$INSTALLDIR/usr/bin
++target.path = $$PREFIX/bin
+ 
+-translations.path  = $$INSTALLDIR/usr/bin/lng
++translations.path  = $$PREFIX/bin/lng
+ translations.files = lng/lmgr_de.qm $$[QT_INSTALL_TRANSLATIONS]/qtbase_de.qm
+ 
+-help.path  = $$INSTALLDIR/usr/bin/hlp
++help.path  = $$PREFIX/bin/hlp
+ help.files = hlp/dst/*.qch hlp/dst/*.qhc
+ 
+-android.path  = $$INSTALLDIR/usr/bin
++android.path  = $$PREFIX/bin
+ android.files = $$(PLATFORMTOOLS)/adb $$(PLATFORMTOOLS)/fastboot
+ 
+-lin.path  = $$INSTALLDIR
+-lin.extra = cp ins/lin/lmgr.desktop $$INSTALLDIR/lmgr.desktop &&\
+-            cp res/ico/app.png $$INSTALLDIR/lmgr.png &&\
+-            mkdir -p $$INSTALLDIR/usr/share/metainfo && cp ins/lin/de.lazyt.lmgr.appdata.xml $$INSTALLDIR/usr/share/metainfo/ &&\
+-            ln -s lmgr.png $$INSTALLDIR/.DirIcon &&\
+-            export VERSION=$$VERS &&\
+-            linuxdeployqt-continuous-x86_64.AppImage $$INSTALLDIR/lmgr.desktop -appimage -no-copy-copyright-files -no-translations &&\
+-            mv Logo_Manager-*-x86_64.AppImage lmgr-"$$VERS".AppImage
++desktop.files = ins/lin/lmgr.desktop
++desktop.path = $$PREFIX/share/applications/
+ 
+-INSTALLS += target translations help android lin
++icons.path = $$PREFIX/share/icons
++icons.files = res/ico/lmgr.png
++
++INSTALLS += desktop icons
++INSTALLS += target translations help android 
+ }
+ 
+ win32 {
+-- 
+2.43.4
+

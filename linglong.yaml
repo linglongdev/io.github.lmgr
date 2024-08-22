@@ -1,0 +1,29 @@
+version: "1"
+
+package:
+  id: io.github.lmgr
+  name: lmgr
+  version: 0.1.1.1
+  kind: app
+  description: |
+    Logo Manager
+
+command:
+  - /opt/apps/io.github.lmgr/files/bin/lmgr
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/LazyT/lmgr.git
+    version: master
+    commit: 3e739c693cfd80503710611e7b878a73aa510236
+
+build: |
+  cd /project/linglong/sources/lmgr.git
+  git apply ../../../0001-install.patch
+  cp res/ico/app.png res/ico/lmgr.png
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
